@@ -20,9 +20,9 @@ Element & Informacja \\
 Imię i nazwisko & Joanna Joniec \\
 Numer albumu & 177089 \\
 Kierunek/specjalność & Informatyka/ Sztuczna Inteligencja \\
-Tytuł projektu & Do uzupełnienia \\
+Tytuł projektu & "Planowanie trasy kuriera w dynamicznym środowisku miejskim z wykorzystaniem uczenia ze wzmocnieniem" \\
 Link do repozytorium & \url{https://github.com/JoAsha2004/uczenie-sie-ze-wzmocnieniem---PROJEKT} \\
-Data oddania & Do uzupełnienia \\
+Data oddania & 15.11.2026 \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -32,11 +32,15 @@ Data oddania & Do uzupełnienia \\
 \subsection{Opis problemu}
 
 Należy krótko opisać problem rozwiązywany w~projekcie. 
-Opis powinien być zrozumiały bez czytania kodu źródłowego.
+Opis powinien być zrozumiały bez czytania kodu źródłowego.\\
+
+\\Projekt ma na celu symulację trasy kuriera rozwożącego pizzę na dwuwymiarowej planszy podzielonej na pola reprezentujące uproszczoną sieć miejskich ulic. Punktem startowym dla agenta poruszającego się pomiędzy sąsiednimi polami planszy (każdy ruch wiąże się z upływem czasu i zużyciem określonej ilości energii) jest pizzeria, a punktem docelowym do którego musi dotrzeć omijając stale nieprzejezdne pola oraz bramy, których lokalizacja ulega zmianie. Jeśli agent porusza się za często danymi drogami, mogą one zostać zablokowane bramą, tworząc ślepą uliczkę. Im lokalizacja dostawy znajduje się dalej od pizzerii tym oferuje wyższy początkowy zarobek, ale jego wartość zminiejsza się wraz z wydłużającym się czasem dostawy co wymusza decyzję o kolejności obsługi klientów. 
 
 \subsection{Cel agenta}
 
-Należy wyjaśnić, co agent ma osiągnąć oraz kiedy jego działanie można uznać za poprawne lub skuteczne.
+Należy wyjaśnić, co agent ma osiągnąć oraz kiedy jego działanie można uznać za poprawne lub skuteczne. \\
+
+\\Zadaniem agenta jest zaplanować trasę od pizzerii do klienta oraz powrotną, nie znając optymalnego rozwiązania, ale ucząc się na podstawie otrzymywanych nagród i kar. Celem agenta jest dostarczenie wszystkich zamówień przed wyczerpaniem energii lub przekroczeniem czasu oczekiwania klienta. Agent dążdy do uzyskania jak najwyższego łącznego wyniku zarobków, którego pojedyncze składowe zależą od  czasu oczekiwania klientów, tracąc przy tym jak najmniej energii.
 
 \subsection{Uzasadnienie zastosowania uczenia się ze wzmocnieniem}
 
