@@ -34,13 +34,20 @@ Data oddania & 15.11.2026 \\
 Należy krótko opisać problem rozwiązywany w~projekcie. 
 Opis powinien być zrozumiały bez czytania kodu źródłowego.\\
 
-\\Projekt ma na celu symulację trasy kuriera rozwożącego pizzę na dwuwymiarowej planszy podzielonej na pola reprezentujące uproszczoną sieć miejskich ulic. Punktem startowym dla agenta poruszającego się pomiędzy sąsiednimi polami planszy (każdy ruch wiąże się z upływem czasu i zużyciem określonej ilości energii) jest pizzeria, a punktem docelowym do którego musi dotrzeć omijając stale nieprzejezdne pola oraz bramy, których lokalizacja ulega zmianie. Jeśli agent porusza się za często danymi drogami, mogą one zostać zablokowane bramą, tworząc ślepą uliczkę. Im lokalizacja dostawy znajduje się dalej od pizzerii tym oferuje wyższy początkowy zarobek, ale jego wartość zminiejsza się wraz z wydłużającym się czasem dostawy co wymusza decyzję o kolejności obsługi klientów. 
+\\Projekt ma na celu symulację trasy kuriera rozwożącego pizze na dwuwymiarowej planszy podzielonej na pola reprezentujące uproszczoną sieć miejskich ulic.
+Punktem startowym dla agenta poruszającego się pomiędzy sąsiednimi polami planszy (każdy ruch wiąże się z upływem czasu i zużyciem określonej ilości energii) jest pizzeria, z której odbiera określoną ilość zamówień, a punktami docelowymi są znajdujący się w różnych, oddalonych od siebie lokalizacjach mapy klienci, do których musi dotrzeć przed powrotem do pizzerii po kolejne przesyłki (nowy epizod).
+Agent omija stale nieprzejezdne pola (budynki) oraz bramy, które mogą zostać zamknięte czasowo (do końca kilku kolejnych epizodów), jeśli kurier przeszedł przez dane wyznaczone pole określoną wcześniej ilość razy w czasie ostatnich kilku epizodów.
+Im lokalizacja dostawy znajduje się dalej od pizzerii, tym oferuje wyższy początkowy napiwek doliczany do stałej zapłaty, ale jego wartość zminiejsza się wraz z wydłużającym się czasem dostawy co wymusza decyzję o kolejności obsługi klientów. 
+Jeśli napiwek spadnie poniżej 0, kurier traci zamówienie i już go nie dostarcza (co skutkuje mniejszym zarobkiem na koniec epizodu).
 
 \subsection{Cel agenta}
 
 Należy wyjaśnić, co agent ma osiągnąć oraz kiedy jego działanie można uznać za poprawne lub skuteczne. \\
 
-\\Zadaniem agenta jest zaplanować trasę od pizzerii do klienta oraz powrotną, nie znając optymalnego rozwiązania, ale ucząc się na podstawie otrzymywanych nagród i kar. Celem agenta jest dostarczenie wszystkich zamówień przed wyczerpaniem energii lub przekroczeniem czasu oczekiwania klienta. Agent dążdy do uzyskania jak najwyższego łącznego wyniku zarobków, którego pojedyncze składowe zależą od  czasu oczekiwania klientów, tracąc przy tym jak najmniej energii.
+\\Zadaniem agenta jest zaplanować najkrótszą trasę od pizzerii do poszczególnych klientów (obejmującą wszystkie dostawy w danym epizodzie) oraz najkrótszą powrotną od ostatniego klienta (co kończy epizod) do pizzerii, nie znając optymalnego rozwiązania, ale ucząc się na podstawie otrzymywanych nagród i kar. 
+Agent musi dostarczyć jak najwięcej zamówień i powrócić do pizzerii przed wyczerpaniem energii.
+Kurier dążdy do uzyskania jak najwyższej łącznej nagrody, czyli sumy uzyskanych dochodów (stałe zapłaty + napiwki) i pozostałej energii na końcu danego epizodu.
+Agent powinien również dobierać trasę w taki sposób, aby nie spowodować zamykania poszczególnych bram które mogą wydłużyć czas dostawy i nadmierny spadek energii. 
 
 \subsection{Uzasadnienie zastosowania uczenia się ze wzmocnieniem}
 
