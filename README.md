@@ -1,6 +1,7 @@
 # uczenie-sie-ze-wzmocnieniem---PROJEKT
 
-OPIS PROJEKTU
+OPIS PROJEKTU:
+
 Projekt ma na celu symulację trasy kuriera rozwożącego pizzę na dwuwymiarowej planszy
 podzielonej na pola reprezentujące uproszczoną sieć miejskich ulic. Punktem startowym
 dla agenta poruszającego się pomiędzy sąsiednimi polami planszy (każdy ruch wiąże się z
@@ -17,5 +18,6 @@ Jeśli napiwek spadnie poniżej 0, klient anuluje zamówienie i kurier już go n
 skutkuje mniejszym zarobkiem na koniec epizodu). W przypadku gdy energia spadła do
 zera agent przenosi się do punktu startowego i rozpoczyna się kolejny epizod.
 
-AKTUALNY STAN PRAC
+AKTUALNY STAN PRAC:
+
 Zostały zrealizowane pierwsze 3 rozdziały raportu ("Informacje podstawowe", "Temat i cel projektu" oraz  "Formalizacja problemu RL/MDP")
