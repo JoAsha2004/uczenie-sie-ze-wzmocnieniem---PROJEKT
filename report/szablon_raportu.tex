@@ -51,42 +51,41 @@ Stan środowiska zmienia się w zależności od działań agenta. Przejazd przez
 \section{Formalizacja problemu RL/MDP}
 
 \subsection{Agent i środowisko}
-
-Należy opisać agenta, środowisko oraz sposób ich interakcji. Warto wskazać, co dzieje się w jednym kroku epizodu.
+W tym projekcie agentem jest kurier, który sam wybiera kolejne ruchy nie znając optymalnej strategii i uczy się poprzez interakcję ze środowiskiem. 
+Środowiskiem dla agenta jest plansza gridowa reprezentująca miasto, na której znajdują się pizzeria (punkt początkowy i końcowy), klienci (których musi odwiedzić, aby dostać zarobek i napiwek), przeszkody (budynki i zamykające się bramy) oraz ograniczony zasób energii. 
+Agent i środowisko oddziałują ze sobą w kolejnych krokach epizodu. Agent, obserwując aktualną sytuację, wybiera kolejny ruch, z kolei środowisko aktualizuje pozycję agenta, po czym zmniejsza jego energię, aktualizuje czas oczekiwania klientów, sprawdza warunki zamknięcia bram, zmienia stan i oblicza nagrodę.
+W pojedynczym kroku epizodu agent najpierw otrzymuje aktualny stan, potem wybiera akcję, a środowisko próbuje wykonać ruch, po czym pozycja agenta jest aktualizowana, energia się zmniejsza, zwiększa się czas dostawy, a napiwki klientów są aktualizowane. Następnie sprawdzane są warunki zamknięcia bram, nagroda jest wyznaczana i jest generowany nowy stan.
 
 \subsection{Stan lub obserwacja}
-
-Należy opisać informacje dostępne dla agenta. Jeżeli agent nie obserwuje pełnego stanu środowiska, należy wyjaśnić różnicę między stanem środowiska a obserwacją agenta.
-
 \begin{center}
 \begin{tabular}{p{0.30\textwidth}p{0.60\textwidth}}
 \toprule
 Składowa stanu/obserwacji & Znaczenie \\
 \midrule
-Do uzupełnienia & Do uzupełnienia \\
-Do uzupełnienia & Do uzupełnienia \\
-Do uzupełnienia & Do uzupełnienia \\
+Pozycja kuriera (x,y) & Określa aktualne położenie agenta na planszy i umożliwia wybór kierunku dalszego ruchu \\
+Aktualna energia & Informuje o liczbie pozostałych jednostek energii dostępnych do wykonania dalszych ruchów \\
+Status zamówień (dostarczone / aktywne / anulowane) & Pozwala określić, które zamówienia zostały już dostarczone, a które nadal wymagają realizacji \\
+Stan bram (otwarta / zamknięta) & Określa dostępność poszczególnych przejazdów i wpływa na możliwość wyboru trasy \\
+Aktualna wartość napiwków & Informuje o potencjalnym zysku możliwym do uzyskania od poszczególnych klientów w danym momencie \\
+Licznik przejazdów przez bramę & Pozwala przewidzieć możliwość przyszłego zamknięcia przejazdu po przekroczeniu ustalonego limitu użyć \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \subsection{Akcje}
-
-Należy opisać zbiór akcji dostępnych dla agenta. 
-Jeżeli niektóre akcje są niedozwolone w~określonych stanach, 
-należy to wyjaśnić.
-
 \begin{center}
 \begin{tabular}{p{0.30\textwidth}p{0.60\textwidth}}
 \toprule
 Akcja & Opis \\
 \midrule
-Do uzupełnienia & Do uzupełnienia \\
-Do uzupełnienia & Do uzupełnienia \\
-Do uzupełnienia & Do uzupełnienia \\
+Góra & Agent porusza się o 1 kratkę w górę \\
+Dół & Agent porusza się o 1 kratkę w dół \\
+Lewo & Agent porusza się o 1 kratkę w lewo \\
+Prawo & Agent porusza się o 1 kratkę w prawo \\
 \bottomrule
 \end{tabular}
 \end{center}
+W przypadku gdy akcja powodowałaby wejście w budynek, zamkniętą bramę lub poza granice mapy, ruch jest niedozwolony, a agent pozostaje na aktualnym polu i traci energię jak w przypadku wykonania właściwego ruchu.
 
 \subsection{Funkcja nagrody}
 
