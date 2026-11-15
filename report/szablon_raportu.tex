@@ -58,6 +58,11 @@ Należy wyjaśnić, dlaczego problem można rozpatrywać jako problem uczenia si
     \item dlaczego zastosowanie agenta uczącego się jest uzasadnione.
 \end{itemize}
 
+\\Uczenie się ze wzmocnieniem jest uzasadnione w przypadku tego projektu, ponieważ w dynamicznym środowisku gridowym nie ma wcześniej ustalonej optymalnej drogi, ale istnieje wiele potencjalnych tras, którymi agent może poruszać się aby osiągnąć wcześniej ustalony cel, a uczenie się przez eksplorację środowiska, sukcesy i porażki umożliwia znajdywanie jak najefektywniejszych tras w kolejnych epizodach. Najbliższy klient lub najwyższy bieżący napiwek nie musi prowadzić do największego zysku na końcu epizodu.
+Aby dotrzeć do celów agent podejmuje szereg kolejnych decyzji o kierunku ruchu zależnych od jego aktualnego położenia względem przeszkód i klientów.
+Stan środowiska zmienia się w zależności od działań agenta. Przejazd przez określone pola zwiększa licznik wykorzystania przejścia, co przy zbyt często powtarzających się trasach doprowadza do permanentnego do końca epizodu zamknięcia przejazdu. Każdy ruch wiąże się ze spadkiem energii a także upływem czasu. Agent decyduje długoterminowo, które dostawy są priorytetowe - przyniosą największy dochód przy najmniejszym spadku energii, ale ich wybór wpływa na wydłużony czas oczekiwania pozostałych klientów, co skutkuje zmniejszeniem napiwku a nawet anulowaniem zamówienia. 
+
+
 \section{Formalizacja problemu RL/MDP}
 
 \subsection{Agent i środowisko}
