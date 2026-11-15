@@ -88,29 +88,30 @@ Prawo & Agent porusza się o 1 kratkę w prawo \\
 W przypadku gdy akcja powodowałaby wejście w budynek, zamkniętą bramę lub poza granice mapy, ruch jest niedozwolony, a agent pozostaje na aktualnym polu i traci energię jak w przypadku wykonania właściwego ruchu.
 
 \subsection{Funkcja nagrody}
-
-Należy dokładnie opisać funkcję nagrody. Opis powinien zawierać nie tylko wzór lub kod, ale również uzasadnienie przyjętych wartości.
-
 \begin{equation}
-    r_t = \text{do uzupełnienia}
+r_t = \begin{cases}
++20 & \text{dostarczenie zamówienia} \\
++tip_i & \text{uzyskanie napiwku od klienta} \\
+-0.1 & \text{wykonanie ruchu} \\
+-2 & \text{próba wejścia w przeszkodę} \\
+-10 & \text{utrata zamówienia} \\
+-20 & \text{wyczerpanie energii przed zakończeniem epizodu}
+\end{cases}
 \end{equation}
 
-W tej sekcji należy wyjaśnić:
-\begin{itemize}
-    \item za co agent otrzymuje nagrodę dodatnią,
-    \item za co agent otrzymuje karę,
-    \item czy występuje kara za krok,
-    \item czy występują ograniczenia twarde lub miękkie,
-    \item czy nagroda nie zachęca agenta do niepożądanego zachowania.
-\end{itemize}
+Funkcja nagrody została zaprojektowana w taki sposób, aby premiować realizację głównego celu zadania, czyli skuteczne dostarczanie zamówień przy jednoczesnym ograniczaniu czasu przejazdu i zużycia energii. Funkcja zawiera zarówno nagrody dodatnie związane z realizacją dostaw, jak i kary za działania utrudniające osiągnięcie celu. Dobrze zaprojektowana funkcja nagrody powinna premiować oczekiwany efekt działania, a nie konkretną strategię, którą agent ma stosować.
+\\Agent otrzymuje dodatnią nagrodę za dostarczenie zamówienia do klienta. Jest to główny sygnał sukcesu w środowisku. Dodatkowo agent otrzymuje premię równą aktualnej wartości napiwku klienta. Dzięki temu opłacalne staje się nie tylko dostarczenie zamówienia, ale również wykonanie dostawy możliwie szybko. Takie rozwiązanie zachęca agenta do planowania kolejności obsługi klientów oraz uwzględniania przyszłych konsekwencji własnych decyzji.
+\\Funkcja nagrody zawiera również kary. Każdy wykonany ruch powoduje naliczenie niewielkiej kary −0.1, pełniącej rolę kosztu kroku. Kara za krok zachęca agenta do wybierania krótszych i bardziej efektywnych tras oraz ogranicza ryzyko przypadkowego poruszania się po planszy bez realizowania celu. Wartość tej kary została dobrana tak, aby była istotnie mniejsza od nagrody za dostawę zamówienia i nie zniechęcała agenta do eksploracji środowiska.Dodatkowa kara −2 jest przyznawana za próbę wejścia w budynek, zamkniętą bramę lub poza granice planszy. Takie działanie nie zmienia pozycji agenta, ale powoduje stratę energii i pogarsza końcowy wynik epizodu. Kara ta ma zniechęcać do wykonywania niedozwolonych akcji.
+\\W środowisku występują zarówno ograniczenia twarde, jak i miękkie. Do ograniczeń twardych należą niemożność wejścia na pole zajęte przez budynek lub zamkniętą bramę oraz zakończenie epizodu po wyczerpaniu energii. Ograniczeniami miękkimi są natomiast koszt każdego ruchu, spadek wartości napiwków wraz z upływem czasu oraz utrata części potencjalnego zysku wynikająca z anulowania zamówienia.
+\\Przyjęta funkcja nagrody nie powinna zachęcać agenta do niepożądanego zachowania. Największe dodatnie nagrody są związane wyłącznie z realizacją dostaw, natomiast zwlekanie, wykonywanie zbędnych ruchów lub ignorowanie klientów prowadzi do stopniowego obniżania wyniku. Oznacza to, że maksymalizacja sumy nagród jest zgodna z rzeczywistym celem środowiska, którym jest obsłużenie możliwie największej liczby klientów przy zachowaniu wysokiego dochodu i racjonalnego zużycia energii. Należy jednak podkreślić, że przedstawione wartości nagród i kar mają charakter wstępny i mogą zostać skorygowane po przeprowadzeniu pierwszych eksperymentów.
 
 \subsection{Warunki zakończenia epizodu}
 
-Należy wskazać wszystkie sytuacje, w których epizod zostaje zakończony, np. osiągnięcie celu, kolizja, wyczerpanie energii, przekroczenie limitu kroków albo wejście w stan porażki.
+Epizod rozpoczyna się w momencie opuszczenia pizzerii przez kuriera z określoną liczbą zamówień i kończy się po spełnieniu jednego z poniższych warunków:
+\begin{itemize} \item agent dostarczył wszystkie aktywne zamówienia i powrócił do pizzerii, \item poziom energii agenta spadł do zera, \item wszystkie pozostałe zamówienia zostały anulowane przez klientów wskutek przekroczenia maksymalnego czasu oczekiwania, \item została osiągnięta maksymalna liczba kroków dozwolonych w pojedynczym epizodzie. \end{itemize}
+Pierwszy przypadek traktowany jest jako zakończenie sukcesem. Pozostałe sytuacje oznaczają zakończenie niepowodzeniem lub częściową realizację zadania. Wprowadzenie limitu energii oraz maksymalnej liczby kroków zapobiega powstawaniu bardzo długich epizodów, w których agent porusza się po planszy bez realizacji celu. Jasne zdefiniowanie warunków zakończenia epizodu jest niezbędnym elementem formalizacji problemu RL.
 
-\subsection{Założenia i ograniczenia środowiska}
-
-Należy opisać uproszczenia przyjęte w projekcie, ograniczenia modelu środowiska oraz elementy, które nie zostały uwzględnione.
+\subsection{Założenia i ograniczenia środowiska} Przyjęto, że środowisko ma postać dwuwymiarowej planszy gridowej o skończonych wymiarach. Agent porusza się wyłącznie pomiędzy sąsiednimi polami mapy, wykonując ruch w jednym z czterech kierunków. Środowisko jest deterministyczne, co oznacza, że wykonanie tej samej akcji w tym samym stanie zawsze prowadzi do tego samego rezultatu. W celu uproszczenia modelu przyjęto, że wszyscy klienci są znani agentowi od początku epizodu, a ich lokalizacja nie zmienia się w trakcie jego trwania. Nie uwzględniono również ruchu innych pojazdów, zmiennych warunków drogowych, pogody ani losowych zdarzeń mogących wpływać na czas przejazdu. Budynki stanowią przeszkody statyczne i nie mogą zostać przekroczone przez agenta. Dodatkowo w środowisku występują dynamiczne przeszkody w postaci bram, które mogą zostać zamknięte po przekroczeniu określonego limitu wykorzystania przejazdu. Zamknięcie bramy obowiązuje wyłącznie do końca bieżącego epizodu. Przyjęto, że każda wykonana akcja powoduje identyczny koszt energetyczny oraz jednakowy przyrost czasu niezależnie od kierunku ruchu. Wartość napiwków zmniejsza się wraz z czasem oczekiwania klientów zgodnie z ustalonymi regułami środowiska. Model środowiska stanowi uproszczoną reprezentację rzeczywistego problemu logistycznego. Celem projektu nie jest wierne odwzorowanie procesu dostawy pizzy, lecz stworzenie środowiska umożliwiającego analizę zachowania agenta RL w zadaniu wymagającym planowania trasy, zarządzania ograniczonymi zasobami oraz przewidywania przyszłych konsekwencji podejmowanych decyzji.
 
 \section{Implementacja}
 
